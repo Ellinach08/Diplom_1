@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -10,6 +11,7 @@ public class BunTest {
 
     private final String name;
     private final float price;
+    private Bun bun;
 
     public BunTest(String name, float price) {
         this.name = name;
@@ -25,15 +27,18 @@ public class BunTest {
         };
     }
 
+    @Before
+    public void setUp(){
+        bun = new Bun(name, price);
+    }
+
     @Test
     public void getNameTest() {
-        Bun bun = new Bun(name, price);
         String actualName = bun.getName();
         assertEquals(name, actualName);
     }
     @Test
     public void getPriceTest() {
-        Bun bun = new Bun(name, price);
         float actualPrice = bun.getPrice();
         assertEquals(price, actualPrice, 0);
     }

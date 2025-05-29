@@ -1,3 +1,4 @@
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
 
-    public Burger burger;
+    private Burger burger;
     @Mock
     private Bun bun;
     @Mock
@@ -42,7 +43,6 @@ public class BurgerTest {
         burger.ingredients.add(ingredient0);
         burger.ingredients.add(ingredient1);
         burger.ingredients.add(ingredient2);
-        assertEquals(3, burger.ingredients.size());
         burger.removeIngredient(1);
         assertEquals(2, burger.ingredients.size());
     }
@@ -53,9 +53,10 @@ public class BurgerTest {
         burger.ingredients.add(ingredient1);
         burger.ingredients.add(ingredient2);
         burger.moveIngredient(1, 0);
-        assertEquals(3, burger.ingredients.size());
-        assertEquals(ingredient1, burger.ingredients.get(0));
-        assertEquals(ingredient0, burger.ingredients.get(1));
+        SoftAssertions.assertSoftly(softAssertions -> {
+            softAssertions.assertThat(ingredient0).isEqualTo(burger.ingredients.get(1));
+            softAssertions.assertThat(ingredient1).isEqualTo(burger.ingredients.get(0));
+        });
     }
 
     @Test
